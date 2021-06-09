@@ -1,5 +1,5 @@
-# Space Invaders Clone
-Trying to 'fast learn' Unity with a journey back in time - Episode 1 "Space Invaders"
+## Space Invaders Clone
+#Trying to 'fast learn' Unity with a journey back in time - Episode 1 "Space Invaders"
 
 I have always developed video games from scratch: starting from a C / C ++ code base and some low-level graphics library. But times have changed ... and it's time for me to change too.
 
