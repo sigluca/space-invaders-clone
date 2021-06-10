@@ -17,8 +17,8 @@ public class AlienManager : MonoBehaviour
     private float last_tick_time;
 
     private AudioSource audioSource = null;
-    private AudioClip[] alienSounds;
-    private int currentAlienSound = 0;
+    private AudioClip[] alienWalkingSounds;
+    private int currentAlienWalkingSound = 0;
     
 
     // Start is called before the first frame update
@@ -33,12 +33,12 @@ public class AlienManager : MonoBehaviour
         audioSource = this.GetComponent<AudioSource>();
 
         // Instantiate & load alien audio clips directly from resources
-        alienSounds = new AudioClip[4];
-        alienSounds[0] = (AudioClip) Resources.Load("Sounds/fastinvader1");
-        alienSounds[1] = (AudioClip) Resources.Load("Sounds/fastinvader2");
-        alienSounds[2] = (AudioClip) Resources.Load("Sounds/fastinvader3");
-        alienSounds[3] = (AudioClip) Resources.Load("Sounds/fastinvader4");
-        currentAlienSound = 0;
+        alienWalkingSounds = new AudioClip[4];
+        alienWalkingSounds[0] = (AudioClip) Resources.Load("Sounds/fastinvader1");
+        alienWalkingSounds[1] = (AudioClip) Resources.Load("Sounds/fastinvader2");
+        alienWalkingSounds[2] = (AudioClip) Resources.Load("Sounds/fastinvader3");
+        alienWalkingSounds[3] = (AudioClip) Resources.Load("Sounds/fastinvader4");
+        currentAlienWalkingSound = 0;
 
 
 
@@ -118,9 +118,9 @@ public class AlienManager : MonoBehaviour
             }
 
             // Play Enemies sounds
-            audioSource.clip = alienSounds[currentAlienSound];
+            audioSource.clip = alienWalkingSounds[currentAlienWalkingSound];
             audioSource.Play();
-            currentAlienSound = (currentAlienSound+1)%4;
+            currentAlienWalkingSound = (currentAlienWalkingSound+1)%4;
 
             last_tick_time = Time.time; 
         }
