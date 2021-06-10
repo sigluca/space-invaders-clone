@@ -26,9 +26,9 @@ public class AlienManager : MonoBehaviour
     void Start()
     {
         // Loading Alien Prefabs from Resource (avoid passing through IDE)
-        GameObject alien1Prefab = (GameObject) Resources.Load("Alien 1");
-        GameObject alien2Prefab = (GameObject) Resources.Load("Alien 2");
-        GameObject alien3Prefab = (GameObject) Resources.Load("Alien 3");
+        GameObject alien1Prefab = (GameObject) Resources.Load("Prefabs/Alien 1");
+        GameObject alien2Prefab = (GameObject) Resources.Load("Prefabs/Alien 2");
+        GameObject alien3Prefab = (GameObject) Resources.Load("Prefabs/Alien 3");
 
          // Get the reference to audio source (to play audio clips)
         audioSource = this.GetComponent<AudioSource>();
