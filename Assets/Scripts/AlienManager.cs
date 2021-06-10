@@ -18,6 +18,7 @@ public class AlienManager : MonoBehaviour
 
     private AudioSource audioSource = null;
     private AudioClip[] alienWalkingSounds;
+    
     private int currentAlienWalkingSound = 0;
     
 
@@ -40,6 +41,7 @@ public class AlienManager : MonoBehaviour
         alienWalkingSounds[3] = (AudioClip) Resources.Load("Sounds/fastinvader4");
         currentAlienWalkingSound = 0;
 
+        
 
 
 
@@ -161,12 +163,20 @@ public class AlienManager : MonoBehaviour
             case "Alien 2":
             case "Alien 3":
 
-
+                // Play alien moan...
+                //audioSource.clip = alienDyingSound;
+                //audioSource.Play();
                 int enemyScore = hittedAlien.GetComponent<EnemyDescriptor>().score;
                 Globals.score+=enemyScore;
                 scoreText.GetComponent<Text>().text = "Score: "+Globals.score;
+
+
                 aliens.Remove(hittedAlien);
-                Destroy(hittedAlien);
+
+                
+
+                hittedAlien.GetComponent<EnemyDescriptor>().Die();
+                //Destroy(hittedAlien);
 
             break;    
         }
