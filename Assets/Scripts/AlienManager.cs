@@ -14,6 +14,9 @@ public class AlienManager : MonoBehaviour
     public GameObject livesText;
 
     private List<GameObject> aliens = new List<GameObject>();
+
+    private List<GameObject> barriers = new List<GameObject>();
+
     private float last_tick_time;
 
     private AudioSource audioSource = null;
@@ -26,25 +29,32 @@ public class AlienManager : MonoBehaviour
     void Start()
     {
         // Loading Alien Prefabs from Resource (avoid passing through IDE)
+
         GameObject alien1Prefab = (GameObject) Resources.Load("Prefabs/Alien 1");
         GameObject alien2Prefab = (GameObject) Resources.Load("Prefabs/Alien 2");
         GameObject alien3Prefab = (GameObject) Resources.Load("Prefabs/Alien 3");
 
+        // Loading Barrier Prefabs from Resource (avoid passing through IDE)
+
+        GameObject barrier11Prefab = (GameObject) Resources.Load("Prefabs/Barrier 1-1");
+        GameObject barrier12Prefab = (GameObject) Resources.Load("Prefabs/Barrier 1-2");
+        GameObject barrier13Prefab = (GameObject) Resources.Load("Prefabs/Barrier 1-3");
+        GameObject barrier21Prefab = (GameObject) Resources.Load("Prefabs/Barrier 2-1");
+        GameObject barrier22Prefab = (GameObject) Resources.Load("Prefabs/Barrier 2-2");
+        GameObject barrier23Prefab = (GameObject) Resources.Load("Prefabs/Barrier 2-3");
+
          // Get the reference to audio source (to play audio clips)
+
         audioSource = this.GetComponent<AudioSource>();
 
-        // Instantiate & load alien audio clips directly from resources
+        // Load alien audio clips directly from resources
+
         alienWalkingSounds = new AudioClip[4];
         alienWalkingSounds[0] = (AudioClip) Resources.Load("Sounds/fastinvader1");
         alienWalkingSounds[1] = (AudioClip) Resources.Load("Sounds/fastinvader2");
         alienWalkingSounds[2] = (AudioClip) Resources.Load("Sounds/fastinvader3");
         alienWalkingSounds[3] = (AudioClip) Resources.Load("Sounds/fastinvader4");
         currentAlienWalkingSound = 0;
-
-        
-
-
-
 
         // Enemy rows initialization
 
@@ -71,6 +81,16 @@ public class AlienManager : MonoBehaviour
         {
             aliens.Add(Instantiate(alien3Prefab,new Vector3(-5+i,-1,0),Quaternion.identity));
         }
+
+        // Barrier initialization
+
+        barriers.Add(Instantiate(barrier11Prefab,new Vector3(-6.37f,-3.39f,0),Quaternion.identity));
+        barriers.Add(Instantiate(barrier12Prefab,new Vector3(-5.97f,-3.39f,0),Quaternion.identity));
+        barriers.Add(Instantiate(barrier13Prefab,new Vector3(-5.57f,-3.39f,0),Quaternion.identity));
+        //barriers.Add(Instantiate(barrier21Prefab,new Vector3(-6.37f,-3.39f,0),Quaternion.identity));
+        //barriers.Add(Instantiate(barrier22Prefab,new Vector3(-6.37f,-3.39f,0),Quaternion.identity));
+        //barriers.Add(Instantiate(barrier23Prefab,new Vector3(-6.37f,-3.39f,0),Quaternion.identity));
+
 
         // Timing initialization
 
