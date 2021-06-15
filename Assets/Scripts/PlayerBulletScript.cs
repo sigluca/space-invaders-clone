@@ -21,9 +21,29 @@ public class PlayerBulletScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        // Try to communicate with Alien Manager...
-        alienManager.bulletHitAlien(other.gameObject);
+        // Various cases:
+
+        
+
+        if(other.gameObject.tag == "Barrier")
+        {
+            // 1: Barrier
+            Debug.Log("Hit a barrier!");
+
+            // Tell the barrier to deteriorate itself
+
+            other.gameObject.GetComponent<BarrierDescriptor>().deteriorate();
+        }
+        else
+        {
+            // 2: Alien
+            // Try to communicate the evento to the Alien Manager
+
+            Debug.Log("Hit an alien!");
+            alienManager.bulletHitAlien(other.gameObject);
+        }
         Destroy(this.gameObject);
+
     }
 
     private void OnBecameInvisible() 

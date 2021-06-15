@@ -84,12 +84,16 @@ public class AlienManager : MonoBehaviour
 
         // Barrier initialization
 
-        barriers.Add(Instantiate(barrier11Prefab,new Vector3(-6.37f,-3.39f,0),Quaternion.identity));
-        barriers.Add(Instantiate(barrier12Prefab,new Vector3(-5.97f,-3.39f,0),Quaternion.identity));
-        barriers.Add(Instantiate(barrier13Prefab,new Vector3(-5.57f,-3.39f,0),Quaternion.identity));
-        //barriers.Add(Instantiate(barrier21Prefab,new Vector3(-6.37f,-3.39f,0),Quaternion.identity));
-        //barriers.Add(Instantiate(barrier22Prefab,new Vector3(-6.37f,-3.39f,0),Quaternion.identity));
-        //barriers.Add(Instantiate(barrier23Prefab,new Vector3(-6.37f,-3.39f,0),Quaternion.identity));
+        for(int i = 0; i < 5; i++)
+        {
+            float xOffset = i * 2.99f;
+            barriers.Add(Instantiate(barrier11Prefab,new Vector3(-6.37f+xOffset,-3.38f,0),Quaternion.identity));
+            barriers.Add(Instantiate(barrier12Prefab,new Vector3(-5.97f+xOffset,-3.38f,0),Quaternion.identity));
+            barriers.Add(Instantiate(barrier13Prefab,new Vector3(-5.57f+xOffset,-3.38f,0),Quaternion.identity));
+            barriers.Add(Instantiate(barrier21Prefab,new Vector3(-6.37f+xOffset,-3.78f,0),Quaternion.identity));
+            barriers.Add(Instantiate(barrier22Prefab,new Vector3(-5.97f+xOffset,-3.78f,0),Quaternion.identity));
+            barriers.Add(Instantiate(barrier23Prefab,new Vector3(-5.57f+xOffset,-3.78f,0),Quaternion.identity));
+        }
 
 
         // Timing initialization

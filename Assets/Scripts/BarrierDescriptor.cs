@@ -17,5 +17,11 @@ public class BarrierDescriptor : MonoBehaviour
         
     }
 
+    public void deteriorate()
+    {
+        // Remove pixels as deterioration effect
+    }
+
+
     
 }
