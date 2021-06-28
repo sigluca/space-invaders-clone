@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBulletScript : MonoBehaviour
+public class EnemyBulletScript : MonoBehaviour
 {
 
      public AlienManager alienManager;
@@ -15,7 +15,7 @@ public class PlayerBulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector2.up * 8f * Time.deltaTime );
+        transform.Translate(Vector2.down * 2f * Time.deltaTime );
     }
 
 
@@ -33,12 +33,7 @@ public class PlayerBulletScript : MonoBehaviour
             // Tell the barrier to deteriorate itself
 
             other.gameObject.GetComponent<BarrierDescriptor>().deteriorate();
-        }
-        else if(other.gameObject.tag == "Enemy Bullet")
-        {
-            Debug.Log("Hit enemy bullet!");
-            alienManager.bulletHitBullet(other.gameObject);
-
+            Destroy(this.gameObject);
         }
         else
         {
@@ -46,9 +41,10 @@ public class PlayerBulletScript : MonoBehaviour
             // Try to communicate the evento to the Alien Manager
 
             Debug.Log("Hit an alien!");
-            alienManager.bulletHitAlien(other.gameObject);
+            //alienManager.bulletHitAlien(other.gameObject);
         }
-        Destroy(this.gameObject);
+
+       
 
     }
 

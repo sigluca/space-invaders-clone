@@ -13,7 +13,13 @@ public class AlienManager : MonoBehaviour
     public GameObject highScoreText;
     public GameObject livesText;
 
+    // List of Aliens
     private List<GameObject> aliens = new List<GameObject>();
+
+    // Matrix of Aliens
+
+    private GameObject[,] aliensMatrix = new GameObject[5,11];
+
 
     private List<GameObject> barriers = new List<GameObject>();
 
@@ -23,11 +29,16 @@ public class AlienManager : MonoBehaviour
     private AudioClip[] alienWalkingSounds;
     
     private int currentAlienWalkingSound = 0;
+
+
+    public GameObject enemyBulletPrefab;
+    private GameObject enemyBullet = null;
     
 
     // Start is called before the first frame update
     void Start()
     {
+
         // Loading Alien Prefabs from Resource (avoid passing through IDE)
 
         GameObject alien1Prefab = (GameObject) Resources.Load("Prefabs/Alien 1");
@@ -61,27 +72,38 @@ public class AlienManager : MonoBehaviour
         // First row - Alien 1
         for(int i=0;i<11;i++)
         {
-            aliens.Add(Instantiate(alien1Prefab,new Vector3(-5+i,3,0),Quaternion.identity));
+            GameObject newbornAlien = Instantiate(alien1Prefab,new Vector3(-5+i,3,0),Quaternion.identity);
+            aliens.Add(newbornAlien);
+            aliensMatrix[0,i] = newbornAlien;
         }
         // Second & third rows - Alien 2
         for(int i=0;i<11;i++)
         {
-            aliens.Add(Instantiate(alien2Prefab,new Vector3(-5+i,2,0),Quaternion.identity));
+            GameObject newbornAlien = Instantiate(alien2Prefab,new Vector3(-5+i,2,0),Quaternion.identity);
+            aliens.Add(newbornAlien);
+            aliensMatrix[1,i] = newbornAlien;
         }
         for(int i=0;i<11;i++)
         {
-            aliens.Add(Instantiate(alien2Prefab,new Vector3(-5+i,1,0),Quaternion.identity));
+            GameObject newbornAlien = Instantiate(alien2Prefab,new Vector3(-5+i,1,0),Quaternion.identity);
+            aliens.Add(newbornAlien);
+            aliensMatrix[2,i] = newbornAlien;
         }
         // fourth & fifth rows - Alien 3
         for(int i=0;i<11;i++)
         {
-            aliens.Add(Instantiate(alien3Prefab,new Vector3(-5+i,0,0),Quaternion.identity));
+            GameObject newbornAlien = Instantiate(alien3Prefab,new Vector3(-5+i,0,0),Quaternion.identity);
+            aliens.Add(newbornAlien);
+            aliensMatrix[3,i] = newbornAlien;
         }
         for(int i=0;i<11;i++)
         {
-            aliens.Add(Instantiate(alien3Prefab,new Vector3(-5+i,-1,0),Quaternion.identity));
+            GameObject newbornAlien = Instantiate(alien3Prefab,new Vector3(-5+i,-1,0),Quaternion.identity);
+            aliens.Add(newbornAlien);
+            aliensMatrix[4,i] = newbornAlien;
         }
 
+        
         // Barrier initialization
 
         for(int i = 0; i < 5; i++)
@@ -143,6 +165,57 @@ public class AlienManager : MonoBehaviour
                 
             }
 
+            // Enemies could fires?
+    
+            if(enemyBullet==null)
+            {
+                // Find a suitable alien to fire (uncovered by others)
+
+                GameObject frontLineAlien;
+
+                // Generate a random column
+                int col = Random.Range(0,10);
+                
+                // Find the 'front line' alien
+                int row = 4;
+                
+                frontLineAlien = aliensMatrix[row,col];
+                while(frontLineAlien==null && row > 0)
+                {
+                    row--;
+                    frontLineAlien = aliensMatrix[row,col];
+                }
+
+                // If we find an alien... fire! 
+                if(frontLineAlien!=null)
+                {
+                    Debug.Log("Enemy Fire at row: "+row+" col: "+col);
+
+                    // Firing sound: alien bullets are mute?
+
+                    //audioSource.clip = shootAudioClip;
+                    //audioSource.Play();
+                
+                
+                    Vector3 bulletStartPoint = new Vector3(frontLineAlien.transform.position.x,frontLineAlien.transform.position.y-0.25f,0);
+
+                    enemyBullet = Instantiate(enemyBulletPrefab,bulletStartPoint,Quaternion.identity);
+
+                    // We need to pass the Alien Manager (object) to the new spawned bullet, so it can
+                    // 'talk' with that to say a collision was detected...
+
+
+                    enemyBullet.GetComponent<EnemyBulletScript>().alienManager = this;
+       
+
+                }
+
+                // If no alien was found, we skip this frame... maybe next frame
+                // will be more lucky
+                
+            }
+            
+
             // Play Enemies sounds
             audioSource.clip = alienWalkingSounds[currentAlienWalkingSound];
             audioSource.Play();
@@ -176,6 +249,11 @@ public class AlienManager : MonoBehaviour
         }
     }
 
+    public void bulletHitBullet(GameObject hittedBullet)
+    {
+        Destroy(hittedBullet);
+        enemyBullet = null;
+    }
     public void bulletHitAlien(GameObject hittedAlien)
     {
         Debug.Log("Hitted: "+hittedAlien.tag);
@@ -196,6 +274,16 @@ public class AlienManager : MonoBehaviour
 
 
                 aliens.Remove(hittedAlien);
+
+                // Check position in original grid
+
+                for(int col=0;col<11;col++)
+                for(int row=0;row<5;row++)
+                    if(aliensMatrix[row,col]==hittedAlien) 
+                    {
+                        // Killed aliens must be removed from the grid too
+                        aliensMatrix[row,col]=null;
+                    }
 
                 
 

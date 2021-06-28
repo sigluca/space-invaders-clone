@@ -9,6 +9,8 @@ TagManager:
   - Alien 3
   - Barrier
   - Mother Ship
+  - Enemy Bullet
+  - Player Bullet
   layers:
   - Default
   - TransparentFX
